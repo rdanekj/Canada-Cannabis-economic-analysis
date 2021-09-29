@@ -215,7 +215,11 @@ gdp_income.yearly_GDP_Medical_Cannabis_industry , gdp_income.Medical_Cannabis_GD
 gdp_income.Medical_Cannabis_Industry_Total_Mixed_Income , gdp_income.Medical_Canna_industr_income_growth ,
 gdp_comp.Medical_Cannabis_industry_Employee_Comp ,gdp_comp.medical_industry_compensation_growth , gdp_comp.percentage_comp_growth_medical,
  gdp_income.yearly_GDP_Non_Medical_Cannabis_industry, gdp_income.Non_Medical_Cannabis_GDP_Growth , gdp_income.Non_Medical_cannabis_GDP_percentage_increase ,
- gdp_income.Non_Medical_Cannabis_Industry_Total_Mixed_Income, gdp_income.Non_Medical_Canna_industr_income_growth , gdp_comp.Non_Medical_Cannabis_industry_Employee_Comp , gdp_comp.non_medical_industry_compensation_growth , gdp_comp.percentage_comp_growth_non_medical
+ gdp_income.Non_Medical_Cannabis_Industry_Total_Mixed_Income, gdp_income.Non_Medical_Canna_industr_income_growth , 
+ gdp_comp.Non_Medical_Cannabis_industry_Employee_Comp , gdp_comp.non_medical_industry_compensation_growth , gdp_comp.percentage_comp_growth_non_medical,
+ gdp_income.yearly_GDP_Medical_Cannabis_industry + gdp_income.yearly_GDP_Non_Medical_Cannabis_industry as Total_Yearly_Cannabis_GDP, 
+ (gdp_income.yearly_GDP_Medical_Cannabis_industry)/( gdp_income.yearly_GDP_Medical_Cannabis_industry + gdp_income.yearly_GDP_Non_Medical_Cannabis_industry)as Percent_Yearly_GDP_Medical_Cannabis,
+ (gdp_income.yearly_GDP_Non_Medical_Cannabis_industry)/( gdp_income.yearly_GDP_Medical_Cannabis_industry + gdp_income.yearly_GDP_Non_Medical_Cannabis_industry)as Percent_Yearly_GDP_Non_Medical_Cannabis
 FROM 
 (SELECT gdp.ref_date , gdp.geo ,
 gdp.yearly_GDP_Medical_Cannabis_industry , gdp.Medical_Cannabis_GDP_Growth ,gdp.Medical_cannabis_GDP_percentage_increase,
@@ -287,7 +291,11 @@ gdp_income.yearly_GDP_Medical_Cannabis_industry , gdp_income.Medical_Cannabis_GD
 gdp_income.Medical_Cannabis_Industry_Total_Mixed_Income , gdp_income.Medical_Canna_industr_income_growth ,
 gdp_comp.Medical_Cannabis_industry_Employee_Comp ,gdp_comp.medical_industry_compensation_growth , gdp_comp.percentage_comp_growth_medical,
  gdp_income.yearly_GDP_Non_Medical_Cannabis_industry, gdp_income.Non_Medical_Cannabis_GDP_Growth , gdp_income.Non_Medical_cannabis_GDP_percentage_increase ,
- gdp_income.Non_Medical_Cannabis_Industry_Total_Mixed_Income, gdp_income.Non_Medical_Canna_industr_income_growth , gdp_comp.Non_Medical_Cannabis_industry_Employee_Comp , gdp_comp.non_medical_industry_compensation_growth , gdp_comp.percentage_comp_growth_non_medical
+ gdp_income.Non_Medical_Cannabis_Industry_Total_Mixed_Income, gdp_income.Non_Medical_Canna_industr_income_growth , 
+ gdp_comp.Non_Medical_Cannabis_industry_Employee_Comp , gdp_comp.non_medical_industry_compensation_growth , gdp_comp.percentage_comp_growth_non_medical,
+ gdp_income.yearly_GDP_Medical_Cannabis_industry + gdp_income.yearly_GDP_Non_Medical_Cannabis_industry as Total_Yearly_Cannabis_GDP, 
+ (gdp_income.yearly_GDP_Medical_Cannabis_industry)/( gdp_income.yearly_GDP_Medical_Cannabis_industry + gdp_income.yearly_GDP_Non_Medical_Cannabis_industry)as Percent_Yearly_GDP_Medical_Cannabis,
+ (gdp_income.yearly_GDP_Non_Medical_Cannabis_industry)/( gdp_income.yearly_GDP_Medical_Cannabis_industry + gdp_income.yearly_GDP_Non_Medical_Cannabis_industry)as Percent_Yearly_GDP_Non_Medical_Cannabis
 FROM 
 (SELECT gdp.ref_date , gdp.geo ,
 gdp.yearly_GDP_Medical_Cannabis_industry , gdp.Medical_Cannabis_GDP_Growth ,gdp.Medical_cannabis_GDP_percentage_increase,
@@ -351,7 +359,6 @@ AND emp_comp1.estimate = emp_comp2.estimate) emdp_dif
 ON ec1.ref_date=emdp_dif.ref_date) comp_can ON 
 gdpcan.ref_date = comp_can.ref_date) gdp_comp
 on gdp_income.ref_date = gdp_comp.ref_date;
-
 -- Taxes less subsidies medical vs non-medical industries
 SELECT medical.ref_date,medical.geo,medical.estimate,medical.value *1000000 as Med_Industry_Total_Taxes_less_subsidies, 
  non_medical.value *1000000 as Non_Med_Industry_Total_Taxes_less_subsidies
@@ -364,4 +371,4 @@ medical.estimate = "Taxes less subsidies" AND non_medical.estimate = "Taxes less
 AND medical.industry = "Medical cannabis industry" AND non_medical.industry = "Non-medical cannabis industry"
 ORDER BY 1;
 
-## JOing taxes less subsidies and yearly_gdp
+
